@@ -46,7 +46,7 @@ CORPUS_CONFIG = dict({
 })
 
 HANLP_CONFIG = dict({
-    'url': 'http://localhost:9000'
+    'url': 'http://localhost:3007'
 })
 
 # ElasticSearch Options

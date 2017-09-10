@@ -40,6 +40,7 @@ sys.path.append(os.path.join(os.path.dirname(
 from util import log
 from services import hanlp_client as hanlp
 from services import elasticsearch_client as elasticsearch
+from config import CORPUS_CONFIG
 
 # logger
 logger = log.getLogger(__file__)
@@ -51,19 +52,59 @@ parser.add_argument(
     action="store_true", dest="pipe_to_es",
     help="pipe data to elasticsearch service.")
 
-parser.add_argument("--query", action="store_true", dest="query_string",
+parser.add_argument("--query", 
                     help="Generate Corpus based on previous conversations.")
 
+INDEX_INSU = "insuranceqa"
+stopwords = []
+
+
+def query_es(query):
+    '''
+    Query
+    '''
+    global stopwords
+    if len(stopwords) == 0:
+        with open(os.path.join(curdir, 'stopwords.txt'), "r") as fin:
+            [stopwords.append(x.strip()) for x in fin]
+    _query = []
+    for x in hanlp.cut(query, type="index")['data']:
+        if not x['word'] in stopwords:
+            # print(x['word'], x['nature'])
+            _query.append(x['word'])
+    if len(_query) > 0:
+        print("query: %s" % " ".join(_query))
+        resp = elasticsearch.search(index=INDEX_INSU, terms=_query)
+        if len(resp["hits"]["hits"]) > 0:
+            for o in resp["hits"]["hits"]:
+                print("hit %s : %s score: %s" % (o["_source"]["id"], o["_source"]["post"], o["_score"]))
+        print("total: %d" % resp["hits"]["total"])
+    return resp
+
+def import_es_data():
+    with open(CORPUS_CONFIG["valid"], "r") as fin:
+        for l in fin:
+            r = l.split(" ++$++ ")
+            id = r[0]
+            category = r[1]
+            post = r[2]
+            terms = r[3]
+            print(category, post, terms)
+            elasticsearch.index(id, dict({
+                "id": id,
+                "category": category,
+                "post": post,
+                "terms": terms 
+            }), index = INDEX_INSU, doc_type="zh_CN")
+        elasticsearch.flush(INDEX_INSU)
 
 if __name__ == '__main__':
-    # with open('file.txt', 'w') as f:
-    #     for x in iter_message_object():
-    #         f.write('%s \n' % x.objectId)
     args = parser.parse_args()
 
     if args.pipe_to_es:
         logger.info('>> create conversations from data')
+        import_es_data()
 
-
-    if args.query_string:
-        logger.info('>> generate corpus')
+    if args.query:
+        logger.info('>> query: %s' % args.query)
+        query_es(args.query)
