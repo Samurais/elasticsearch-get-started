@@ -1,0 +1,15 @@
+version: '2'
+services:
+  elasticsearch:
+    image: "elasticsearch:2.4.1"
+    volumes:
+     - $PWD/elasticsearch/data:/usr/share/elasticsearch/data
+     - $PWD/elasticsearch/config:/usr/share/elasticsearch/config
+     - $PWD/elasticsearch/plugins:/usr/share/elasticsearch/plugins
+    ports:
+     - "9200:9200"
+     - "9300:9300"
+  hanlp-api:
+    image: "samurais/hanlp-api:1.0.0"
+    ports:
+     - "3007:3007"
