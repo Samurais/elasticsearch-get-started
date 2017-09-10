@@ -27,5 +27,11 @@ cd tools
 python insuranceqa_run.py --query="为什么要获得医疗保险补充保险"
 ```
 
+## Quick get started
+To get started quickly, use ```dev.sh```.
+```
+scripts/dev.sh
+```
+
 # LICENSE
 [Apache 2.0](./LICENSE)
