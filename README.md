@@ -17,6 +17,7 @@ open http://localhost:9200/_plugin/head/ # verify
 ## Import data
 ```
 cd iqabot.v1
+cp config.sample.py config.py
 pip install -r Requirement.txt
 python bot.py --pipe-to-es
 ```

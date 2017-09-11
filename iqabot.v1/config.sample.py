@@ -1,21 +1,52 @@
-import sys
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#===============================================================================
+#
+# Copyright (c) 2017 <> All Rights Reserved
+#
+#
+# File: /Users/hain/ai/elasticsearch-get-started/tools/config.py
+# Author: Hai Liang Wang
+# Date: 2017-09-10:21:54:17
+#
+#===============================================================================
+
+"""
+Config   
+"""
+from __future__ import print_function
+from __future__ import division
+
+__copyright__ = "Copyright (c) 2017 . All Rights Reserved"
+__author__    = "Hai Liang Wang"
+__date__      = "2017-09-10:21:54:17"
+
+
 import os
+import sys
+curdir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(curdir)
 
-ROOT_PATH = os.path.realpath(os.path.join(
-    os.path.dirname(os.path.realpath(__file__)), os.pardir))
-PRJ_PATH = os.path.realpath(os.path.join(
-    os.path.dirname(os.path.realpath(__file__))))
+if sys.version_info[0] < 3:
+    reload(sys)
+    sys.setdefaultencoding("utf-8")
+    # raise "Must be using Python 3"
 
+ROOT_PATH = os.path.realpath(os.path.join(curdir, os.pardir))
 
 CONFIG = dict({
-    'log_path': './logs',
-    'log_level': 'DEBUG',
-    'data': '%s/单轮对话/two_1_2.0_100w.data' % ROOT_PATH,
-    'conversations': '%s/conversations' % PRJ_PATH
+    "log_level": "DEBUG",
+    "log_path": "./logs"
+})
+
+CORPUS_CONFIG = dict({
+    "test": os.path.join(ROOT_PATH, "corpus", "insuranceqa", "elasticsearch", "test.questions.txt"),
+    "train": os.path.join(ROOT_PATH, "corpus", "insuranceqa", "elasticsearch", "train.questions.txt"),
+    "valid": os.path.join(ROOT_PATH, "corpus", "insuranceqa", "elasticsearch", "valid.questions.txt")
 })
 
 HANLP_CONFIG = dict({
-    'url': 'http://localhost:3000'
+    'url': 'http://localhost:3007'
 })
 
 # ElasticSearch Options

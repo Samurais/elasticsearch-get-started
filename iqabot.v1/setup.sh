@@ -31,6 +31,7 @@ cd $baseDir
 echo "Install requirements"
 pip install -r Requirement.txt
 echo "Pipe data to elasticsearch"
+cp config.sample.py config.py
 python bot.py --pipe-to-es
 echo "Search with elasticsearch client"
 set -x
