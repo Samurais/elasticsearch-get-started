@@ -2,10 +2,10 @@
 
 ## Deps
 
-* docker 
-* docker compose
-* python2
-* pip
+* docker v17.*
+* docker-compose v1.14.*
+* Python v2.7
+* virtualenv v15.1.0
 
 ## Run
 
@@ -16,21 +16,21 @@ open http://localhost:9200/_plugin/head/ # verify
 
 ## Import data
 ```
-cd tools
+cd iqabot.v1
 pip install -r Requirement.txt
-python insuranceqa_run.py --pipe-to-es
+python bot.py --pipe-to-es
 ```
 
 ## Query
 ```
-cd tools
-python insuranceqa_run.py --query="为什么要获得医疗保险补充保险"
+cd iqabot.v1
+python bot.py --query="为什么要获得医疗保险补充保险"
 ```
 
-## Quick get started
+## Quick Get Started
 To get started quickly, use ```dev.sh```.
 ```
-scripts/dev.sh
+iqabot.v1/setup.sh
 ```
 
 # LICENSE

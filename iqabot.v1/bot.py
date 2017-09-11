@@ -50,10 +50,10 @@ parser = argparse.ArgumentParser()
 parser.add_argument(
     "--pipe-to-es",
     action="store_true", dest="pipe_to_es",
-    help="pipe data to elasticsearch service.")
+    help="Pipe data to ElasticSearch Service.")
 
 parser.add_argument("--query", 
-                    help="Generate Corpus based on previous conversations.")
+                    help="Query question to get answers from ElasticSearch Service.")
 
 INDEX_INSU = "insuranceqa"
 stopwords = []
@@ -89,22 +89,21 @@ def import_es_data():
             category = r[1]
             post = r[2]
             terms = r[3]
-            print(category, post, terms)
+            print(">> pipe ", category, post, terms)
             elasticsearch.index(id, dict({
                 "id": id,
                 "category": category,
                 "post": post,
                 "terms": terms 
             }), index = INDEX_INSU, doc_type="zh_CN")
-        elasticsearch.flush(INDEX_INSU)
 
 if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.pipe_to_es:
-        logger.info('>> create conversations from data')
+        logger.info('>> pipe data to ElasticSearch Service ...')
         import_es_data()
 
     if args.query:
-        logger.info('>> query: %s' % args.query)
+        logger.info('>> query question to get answers from ElasticSearch Service query: \n %s' % args.query)
         query_es(args.query)

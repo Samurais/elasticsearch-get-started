@@ -40,9 +40,9 @@ CONFIG = dict({
 })
 
 CORPUS_CONFIG = dict({
-    "test": os.path.join(ROOT_PATH, "corpus", "test.questions.txt"),
-    "train": os.path.join(ROOT_PATH, "corpus", "train.questions.txt"),
-    "valid": os.path.join(ROOT_PATH, "corpus", "valid.questions.txt")
+    "test": os.path.join(ROOT_PATH, "corpus", "insuranceqa", "elasticsearch", "test.questions.txt"),
+    "train": os.path.join(ROOT_PATH, "corpus", "insuranceqa", "elasticsearch", "train.questions.txt"),
+    "valid": os.path.join(ROOT_PATH, "corpus", "insuranceqa", "elasticsearch", "valid.questions.txt")
 })
 
 HANLP_CONFIG = dict({
